@@ -2,8 +2,8 @@
 int main() {
   MEVENT event; int ch;
 INIT:
-  initscr(); raw(); keypad(stdscr, TRUE); noecho(); start_color();
-  mousemask( ALL_MOUSE_EVENTS, NULL );
+  initscr(); noecho(); cbreak(); keypad(stdscr, TRUE); start_color();
+  mousemask( BUTTON1_PRESSED | REPORT_MOUSE_POSITION, NULL );
   init_pair( 8, COLOR_BLACK,   COLOR_BLACK );
   init_pair( 1, COLOR_RED,     COLOR_BLACK );
   init_pair( 2, COLOR_GREEN,   COLOR_BLACK );
