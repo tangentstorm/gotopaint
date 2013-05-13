@@ -1,0 +1,19 @@
+* gotopaint
+
+=gotopaint= is an ncurses drawing tool with a pathological c coding standard.
+
+* the rules
+
+The entire program must be contained in the =main= function.
+
+Normal c control flow syntax is forbidden, with the following exceptions:
+
+: goto
+: if (but not else)
+: ? :
+: ,
+: &&
+: ||
+: calls to predefined functions
+
+Macros are permissible, provided they fit on a single line less than 80 characters wide.
