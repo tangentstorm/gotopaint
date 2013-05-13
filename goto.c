@@ -12,6 +12,7 @@ INIT:
   init_pair( 5, COLOR_MAGENTA, COLOR_BLACK );
   init_pair( 6, COLOR_CYAN,    COLOR_BLACK );
   init_pair( 7, COLOR_WHITE,   COLOR_BLACK );
+  attron( COLOR_PAIR( 7 )); // light gray by default
 TOP:
   ch = getch();
   if (ch == 27)        goto END; // escape key
