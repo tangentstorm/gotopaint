@@ -40,10 +40,10 @@ MOUSE:
   if (event.bstate & BUTTON1_PRESSED) goto DRAW;
   goto TOP;
 DRAW:
-  mvprintw(event.x, event.y, "%s", '#');
+  mvprintw(event.y, event.x, "%s", "#");
   goto REFRESH;
 ERASE:
-  mvprintw(event.x, event.y, "%s", ' ');
+  mvprintw(event.y, event.x, "%s", " ");
   goto REFRESH;
 REFRESH:
   refresh();
