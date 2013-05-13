@@ -1,3 +1,8 @@
+//
+//  gotopaint : an ncurses drawing tool with a pathological c coding standard.
+//  homepage  : https://github.com/tangentstorm/gotopaint
+//  license   : MIT/x11 style. see LICENSE.MIT for datails.
+//
 #include <ncurses.h>
 int main() {
   MEVENT event; int ch;
