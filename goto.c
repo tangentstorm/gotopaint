@@ -36,6 +36,9 @@ TOP:
     : 0; goto TOP;
 MOUSE:
   if (getmouse(&event) != OK)         goto TOP;
+  attron( A_REVERSE );
+  mvprintw(0, 0, "(%2i,%2i)", event.x, event.y);
+  attroff( A_REVERSE );
   if (event.bstate & BUTTON2_PRESSED) goto ERASE;
   if (event.bstate & BUTTON1_PRESSED) goto DRAW;
   goto TOP;
