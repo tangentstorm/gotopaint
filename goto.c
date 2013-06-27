@@ -5,10 +5,10 @@
 //
 #include <ncurses.h>
 int main() {
-  MEVENT event; int ch;
+  MEVENT event; int ch; unsigned char buttons = 0;
 INIT:
   initscr(); noecho(); cbreak(); keypad(stdscr, TRUE); start_color();
-  mousemask( BUTTON1_PRESSED | REPORT_MOUSE_POSITION, NULL );
+  mousemask( ALL_MOUSE_EVENTS /*BUTTON1_PRESSED | BUTTON1_RELEASED*/ | REPORT_MOUSE_POSITION, NULL );
   init_pair( 8, COLOR_BLACK,   COLOR_BLACK );
   init_pair( 1, COLOR_RED,     COLOR_BLACK );
   init_pair( 2, COLOR_GREEN,   COLOR_BLACK );
@@ -42,15 +42,26 @@ TOP:
 MOUSE:
   if (getmouse(&event) != OK)         goto TOP;
   attron( A_REVERSE );
-  mvprintw(0, 0, "(%2i,%2i)", event.x, event.y);
+  mvprintw(0, 0, "(%2i,%2i) %x", event.x, event.y, event.bstate);
   attroff( A_REVERSE );
-  if (event.bstate & BUTTON2_PRESSED) goto ERASE;
-  if (event.bstate & BUTTON1_PRESSED) goto DRAW;
-  goto TOP;
+  if (event.bstate & BUTTON1_PRESSED)  buttons |= 1;
+  if (event.bstate & BUTTON1_RELEASED) buttons ^= 1;
+  if (event.bstate & BUTTON2_PRESSED)  buttons |= 2;
+  if (event.bstate & BUTTON2_RELEASED) buttons ^= 2;
+  if (event.bstate & REPORT_MOUSE_POSITION) goto MOVED;
+  mvprintw(0, 50, "         [%i]    ", buttons);
+  goto REFRESH;
+MOVED:
+  mvprintw(0, 50, "MOVED.   [%i]    ", buttons);
+  if (buttons & 1) goto DRAW;
+  if (buttons & 2) goto ERASE;
+  goto REFRESH;
 DRAW:
+  mvprintw(0, 50, "DRAW    [%i]     ", buttons);
   mvprintw(event.y, event.x, "%s", "#");
   goto REFRESH;
 ERASE:
+  mvprintw(0, 50, "ERASE   [%i]     ", buttons);
   mvprintw(event.y, event.x, "%s", " ");
   goto REFRESH;
 REFRESH:
